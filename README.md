@@ -16,7 +16,7 @@ and the Flutter guide for
 
 ## Features
 
-Creating commands to send to the telescope and parsing the responses (WIP).
+Creating Nexstar commands to send them to the telescope and parsing the responses.
 
 ## Getting started
 
@@ -39,11 +39,13 @@ import 'package:nexstar/nexstar.dart';
 void main() {
   NexstarCommand cmd=NexstarCommandFactory.buildGotoRaDecCommand(10, 88, false);
   print("Send to telescope: {$cmd.commandData}");
+  VoidResponse response = cmd.parseResponse("#") as VoidResponse;
+  print("Response success: ${response.success}");
 }
 ```
 
 ## Additional information
 
-As this package is a work in progress, the command set is not complete.
+As this package is a work in progress, the command set can be not complete.
 Please refer to the NexStar Communication Protocol commands list for more information.
 Any questions can be asked by email: [spin7ion@gmail.com](mailto:spin7ion@gmail.com)  or by opening an issue on the GitHub repository.

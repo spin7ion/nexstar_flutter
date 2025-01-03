@@ -1,6 +1,6 @@
 name: nexstar
 description: Nexstar astronomy protocol command factory and parser.
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/spin7ion/nexstar_flutter
 
 platforms:

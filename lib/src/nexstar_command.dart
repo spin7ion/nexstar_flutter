@@ -1,5 +1,8 @@
 import 'dart:typed_data';
 
+import 'package:nexstar/src/nexstar_parser.dart';
+import 'package:nexstar/src/nexstar_response.dart';
+
 import 'nexstar_constants.dart';
 class NexstarCommand {
   NexstarCommandType _command;
@@ -68,5 +71,9 @@ class NexstarCommand {
     b.add(_commandChar);
     b.add(arguments);
     return b.toBytes();
+  }
+
+  NexstarResponse parseResponse(Uint8List response){
+    return NexstarResponseParser.parseResponse(this, response);
   }
 }
