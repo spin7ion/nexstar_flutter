@@ -90,3 +90,17 @@ enum NexstarEW{
   east,
   west
 }
+
+enum NexstarModel{
+  unknown,
+  gpsSeries,
+  iSeries,
+  iSeriesSE,
+  cge,
+  advancedGT,
+  slt,
+  cpc,
+  gt,
+  fourFiveSe,
+  sixEightSe,
+}

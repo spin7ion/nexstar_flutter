@@ -6,7 +6,7 @@ import 'nexstar_constants.dart';
 
 class NexstarUtils{
   static double stringToDoubleRad(String str, bool precise) => precise?double.parse(str)*360/65536:double.parse(str)*360/4294967296;
-  static String doubleToStringRad(int value, bool precise) => precise?sprintf ("%08X", [value]):sprintf ("%04X", [value]);
+  static String intToStringRad(int value, bool precise) => precise?sprintf ("%08X", [value]):sprintf ("%04X", [value]);
   static Uint8List trackingRateToUint8List(int trackingRate) => Uint8List(2)..[0]=(trackingRate * 4 / 256) as int..[1]=trackingRate * 4 % 256;
 
   static double dmsToDeg(List<int> dms, NexstarCardinalDirections direction){

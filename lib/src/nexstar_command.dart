@@ -7,7 +7,7 @@ class NexstarCommand {
 
   Uint8List _commandChar=Uint8List(1);
 
-  NexstarCommand(NexstarCommandType this._command, Uint8List this.arguments){
+  NexstarCommand(this._command, this.arguments){
     _updateCommandChar();
   }
 

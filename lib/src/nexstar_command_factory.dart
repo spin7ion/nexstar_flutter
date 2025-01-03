@@ -20,7 +20,7 @@ class NexstarCommandFactory {
   static NexstarCommand buildGotoRaDecCommand(double ra, double dec, bool precise) {
     int raInt = precise?NexstarUtils.convertDegreesToPreciseNexStar(ra):NexstarUtils.convertDegreesToNexStar(ra);
     int decInt = precise?NexstarUtils.convertDegreesToPreciseNexStar(dec):NexstarUtils.convertDegreesToNexStar(dec);
-    String arguments = "${NexstarUtils.doubleToStringRad(raInt, precise)},${NexstarUtils.doubleToStringRad(decInt, precise)}#";
+    String arguments = "${NexstarUtils.intToStringRad(raInt, precise)},${NexstarUtils.intToStringRad(decInt, precise)}#";
 
     return NexstarCommand(precise?NexstarCommandType.gotoPreciseRaDec:NexstarCommandType.gotoRaDec, _stringToUint8List(arguments));
   }
@@ -28,7 +28,7 @@ class NexstarCommandFactory {
   static NexstarCommand buildGotoAzmAltCommand(double azm, double alt, bool precise) {
     int azmInt = precise?NexstarUtils.convertDegreesToPreciseNexStar(azm):NexstarUtils.convertDegreesToNexStar(azm);
     int altInt = precise?NexstarUtils.convertDegreesToPreciseNexStar(alt):NexstarUtils.convertDegreesToNexStar(alt);
-    String arguments = "${NexstarUtils.doubleToStringRad(azmInt, precise)},${NexstarUtils.doubleToStringRad(altInt, precise)}#";
+    String arguments = "${NexstarUtils.intToStringRad(azmInt, precise)},${NexstarUtils.intToStringRad(altInt, precise)}#";
 
     return NexstarCommand(precise?NexstarCommandType.gotoPreciseRaDec:NexstarCommandType.gotoRaDec, _stringToUint8List(arguments));
   }
@@ -36,7 +36,7 @@ class NexstarCommandFactory {
   static NexstarCommand buildSyncRaDecCommand(double ra, double dec, bool precise) {
     int raInt = precise?NexstarUtils.convertDegreesToPreciseNexStar(ra):NexstarUtils.convertDegreesToNexStar(ra);
     int decInt = precise?NexstarUtils.convertDegreesToPreciseNexStar(dec):NexstarUtils.convertDegreesToNexStar(dec);
-    String arguments = "${NexstarUtils.doubleToStringRad(raInt, precise)},${NexstarUtils.doubleToStringRad(decInt, precise)}#";
+    String arguments = "${NexstarUtils.intToStringRad(raInt, precise)},${NexstarUtils.intToStringRad(decInt, precise)}#";
 
     return NexstarCommand(precise?NexstarCommandType.syncPreciseRaDec:NexstarCommandType.syncRaDec, _stringToUint8List(arguments));
   }
@@ -111,6 +111,12 @@ class NexstarCommandFactory {
   static NexstarCommand buildGetLatitude() => NexstarCommand(NexstarCommandType.getLatitude, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 1, 0, 0, 0, 3]));
   static NexstarCommand buildGetLongitude() => NexstarCommand(NexstarCommandType.getLongitude, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 2, 0, 0, 0, 3]));
   static NexstarCommand buildGetGPSTime() => NexstarCommand(NexstarCommandType.getGPSTime, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 51, 0, 0, 0, 3]));
+
+  static NexstarCommand buildGetVersion() => NexstarCommand(NexstarCommandType.getVersion, Uint8List(0));
+
+  static NexstarCommand buildGetDeviceVersion(NexstarDevices device) =>
+      NexstarCommand(NexstarCommandType.getVersion, Uint8List.fromList([1, deviceId(device), 254, 0, 0, 0, 2]));
+  static NexstarCommand buildGetModel() => NexstarCommand(NexstarCommandType.getModel, Uint8List(0));
 
   static _stringToUint8List(String str){
     return Uint8List.fromList(str.codeUnits);
