@@ -117,11 +117,12 @@ class NexstarCommandFactory {
 
   static NexstarCommand<NexstarResponse> buildPassThroughCommand(Uint8List args)=>NexstarCommand(NexstarCommandType.passThrough, args);
 
-  static NexstarCommand<NexstarResponse> buildDirectMotorCommand(NexstarDevices motId, NexstarMotorMsgId msg, Uint8List args){
-    var len=2;
-    List<int> cmd=[len, motId.id, msg.id,...args];
+  static NexstarCommand<NexstarResponse> buildDirectMotorCommand(NexstarDevices motId, NexstarMotorMsg msg, Uint8List data){
+    var len=data.lengthInBytes+1;
 
-    return buildPassThroughCommand(args);
+    List<int> cmd=[len, motId.id, msg.id,...data, msg.respLenBytes];
+
+    return buildPassThroughCommand(Uint8List.fromList(cmd));
   }
 
   static _stringToUint8List(String str){
