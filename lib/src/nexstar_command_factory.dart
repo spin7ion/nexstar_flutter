@@ -49,23 +49,17 @@ class NexstarCommandFactory {
   static NexstarCommand buildSlewCommand(NexstarRate rate, NexstarAxis axis, NexstarDirection direction, int rateValue) {
     Uint8List arguments=Uint8List(7);
 
-    if(rate==NexstarRate.variable) {
-      arguments[0]=3;
-    } else {
-      arguments[0]=2;
-    }
+    arguments[0]=rate.byte;
 
     if(axis==NexstarAxis.azm || axis==NexstarAxis.ra) {
-      arguments[1]=deviceId(NexstarDevices.motorAzmRa);
+      arguments[1]=NexstarDevices.motorAzmRa.id;
     } else {
-      arguments[1]=deviceId(NexstarDevices.motorAltDec);
+      arguments[1]=NexstarDevices.motorAltDec.id;
     }
 
-    if(direction==NexstarDirection.positive) {
-      arguments[2]=6;
-    } else {
-      arguments[2]=7;
-    }
+
+    arguments[2]=direction.byte;
+
 
     if(rate==NexstarRate.variable){
       Uint8List rateBytes=NexstarUtils.trackingRateToUint8List(rateValue);
@@ -107,31 +101,29 @@ class NexstarCommandFactory {
     return NexstarCommand(NexstarCommandType.setTime, arguments);
   }
 
-  static NexstarCommand buildGetGPSLinkedCommand() => NexstarCommand(NexstarCommandType.isGPSLinked, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 55, 0, 0, 0, 1]));
-  static NexstarCommand buildGetLatitudeCommand() => NexstarCommand(NexstarCommandType.getLatitude, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 1, 0, 0, 0, 3]));
-  static NexstarCommand buildGetLongitudeCommand() => NexstarCommand(NexstarCommandType.getLongitude, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 2, 0, 0, 0, 3]));
-  static NexstarCommand buildGetGPSTimeCommand() => NexstarCommand(NexstarCommandType.getGPSTime, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 51, 0, 0, 0, 3]));
+  static NexstarCommand buildGetGPSLinkedCommand() => NexstarCommand(NexstarCommandType.isGPSLinked, Uint8List.fromList([1, NexstarDevices.gps.id, 55, 0, 0, 0, 1]));
+  static NexstarCommand buildGetLatitudeCommand() => NexstarCommand(NexstarCommandType.getLatitude, Uint8List.fromList([1, NexstarDevices.gps.id, 1, 0, 0, 0, 3]));
+  static NexstarCommand buildGetLongitudeCommand() => NexstarCommand(NexstarCommandType.getLongitude, Uint8List.fromList([1, NexstarDevices.gps.id, 2, 0, 0, 0, 3]));
+  static NexstarCommand buildGetGPSTimeCommand() => NexstarCommand(NexstarCommandType.getGPSTime, Uint8List.fromList([1, NexstarDevices.gps.id, 51, 0, 0, 0, 3]));
 
   static NexstarCommand buildGetVersionCommand() => NexstarCommand(NexstarCommandType.getVersion, Uint8List(0));
 
   static NexstarCommand buildGetDeviceVersion(NexstarDevices device) =>
-      NexstarCommand(NexstarCommandType.getVersion, Uint8List.fromList([1, deviceId(device), 254, 0, 0, 0, 2]));
+      NexstarCommand(NexstarCommandType.getVersion, Uint8List.fromList([1, device.id, 254, 0, 0, 0, 2]));
   static NexstarCommand buildGetModelCommand() => NexstarCommand(NexstarCommandType.getModel, Uint8List(0));
   
   static NexstarCommand buildCancelGotoCommand() => NexstarCommand(NexstarCommandType.cancelGoto, Uint8List(0));
 
+  static NexstarCommand buildPassThroughCommand(Uint8List args)=>NexstarCommand(NexstarCommandType.passThrough, args);
+
+  static NexstarCommand buildDirectMotorCommand(NexstarDevices motId, NexstarMotorMsgId msg, Uint8List args){
+    var len=2;
+    List<int> cmd=[len, motId.id, msg.id,...args];
+
+    return buildPassThroughCommand(args);
+  }
+
   static _stringToUint8List(String str){
     return Uint8List.fromList(str.codeUnits);
   }
-
-  static int deviceId(NexstarDevices device) {
-    return switch(device){
-      NexstarDevices.motorFocus => 12,
-      NexstarDevices.motorAzmRa => 16,
-      NexstarDevices.motorAltDec => 17,
-      NexstarDevices.gps => 176,
-      NexstarDevices.rtc => 178,
-    };
-  }
-
 }

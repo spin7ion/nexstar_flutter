@@ -22,48 +22,7 @@ class NexstarCommand {
   }
 
   void _updateCommandChar(){
-    _commandChar = Uint8List.fromList(switch(_command) {
-      NexstarCommandType.getRaDec => "E",
-      NexstarCommandType.getPreciseRaDec => "e",
-      NexstarCommandType.getAzmAlt => "Z",
-      NexstarCommandType.getPreciseAzmAlt => "z",
-      NexstarCommandType.gotoRaDec => "R",
-      NexstarCommandType.gotoPreciseRaDec => "r",
-      NexstarCommandType.gotoAzmAlt => "B",
-      NexstarCommandType.gotoPreciseAzmAlt => "b",
-      NexstarCommandType.syncRaDec => "S",
-      NexstarCommandType.syncPreciseRaDec => "s",
-      NexstarCommandType.getTrackingMode => "t",
-      NexstarCommandType.setTrackingMode => "T",
-      NexstarCommandType.slewRate => "P",
-      NexstarCommandType.getLocation => "w",
-      NexstarCommandType.setLocation => "W",
-      NexstarCommandType.getTime => "h",
-      NexstarCommandType.setTime => "H",
-      NexstarCommandType.isGPSLinked => "P",
-      NexstarCommandType.getLatitude => "P",
-      NexstarCommandType.getLongitude => "P",
-      NexstarCommandType.getDate => "P",
-      NexstarCommandType.getYear => "P",
-      NexstarCommandType.getGPSTime => "P",
-      NexstarCommandType.getRTCDate => "P",
-      NexstarCommandType.getRTCYear => "P",
-      NexstarCommandType.getRTCTime => "P",
-      NexstarCommandType.setRTCDate => "P",
-      NexstarCommandType.setRTCYear => "P",
-      NexstarCommandType.setRTCTime => "P",
-      NexstarCommandType.getVersion => "V",
-      NexstarCommandType.getDeviceVersion => "P",
-      NexstarCommandType.getModel => "m",
-      NexstarCommandType.echo => "K",
-      NexstarCommandType.isAlignmentComplete => "J",
-      NexstarCommandType.isGotoInProgress => "L",
-      NexstarCommandType.cancelGoto => "M",
-
-      // Pass-through commands meanings depends on next 7 bytes
-      // P(?)(deviceId)(?)(?)(?)(?)(?)
-      NexstarCommandType.passThrough => "P",
-    }.codeUnits);
+    _commandChar = Uint8List.fromList(_command.firstChar.codeUnits);
   }
 
   Uint8List get commandData{

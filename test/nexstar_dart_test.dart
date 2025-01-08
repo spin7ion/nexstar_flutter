@@ -11,7 +11,7 @@ void main() {
     String cmdStr = String.fromCharCodes(bytes);
     print("Send to telescope: $bytes; \"$cmdStr\"");
 
-    cmd = NexstarCommandFactory.buildGetVersion();
+    cmd = NexstarCommandFactory.buildGetVersionCommand();
     cmdStr = String.fromCharCodes(cmd.commandData);
     print("Send to telescope: $bytes; \"$cmdStr\"");
 
