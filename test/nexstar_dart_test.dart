@@ -19,6 +19,10 @@ void main() {
 
     print(version.toString());
 
+    var cmd2 =NexstarCommandFactory.buildGetVersionCommand();
+    GetVersionResponse usableResp =cmd2.parseResponse(Uint8List.fromList([1, 2, 35]));
+    print(usableResp.version);
+
     setUp(() {
       // Additional setup goes here.
     });

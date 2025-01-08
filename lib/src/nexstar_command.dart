@@ -1,10 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:nexstar/src/nexstar_parser.dart';
-import 'package:nexstar/src/nexstar_response.dart';
 
 import 'nexstar_constants.dart';
-class NexstarCommand {
+class NexstarCommand<ResponseType> {
   NexstarCommandType _command;
   Uint8List arguments;
 
@@ -32,7 +31,7 @@ class NexstarCommand {
     return b.toBytes();
   }
 
-  NexstarResponse parseResponse(Uint8List response){
-    return NexstarResponseParser.parseResponse(this, response);
+  ResponseType parseResponse(Uint8List response){
+    return NexstarResponseParser.parseResponse(this, response) as ResponseType;
   }
 }
