@@ -97,9 +97,9 @@ class NexstarCommandFactory {
     return NexstarCommand(NexstarCommandType.setLocation, arguments);
   }
 
-  static NexstarCommand buildGetTime() => NexstarCommand(NexstarCommandType.getTime, Uint8List(0));
+  static NexstarCommand buildGetTimeCommand() => NexstarCommand(NexstarCommandType.getTime, Uint8List(0));
 
-  static NexstarCommand buildSetTime(int h, int m, int s, int month, int day, int year, int timezone, int dst) {
+  static NexstarCommand buildSetTimeCommand(int h, int m, int s, int month, int day, int year, int timezone, int dst) {
     if(timezone<0){
       timezone=256+timezone;
     }
@@ -107,16 +107,18 @@ class NexstarCommandFactory {
     return NexstarCommand(NexstarCommandType.setTime, arguments);
   }
 
-  static NexstarCommand buildGetGPSLinked() => NexstarCommand(NexstarCommandType.isGPSLinked, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 55, 0, 0, 0, 1]));
-  static NexstarCommand buildGetLatitude() => NexstarCommand(NexstarCommandType.getLatitude, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 1, 0, 0, 0, 3]));
-  static NexstarCommand buildGetLongitude() => NexstarCommand(NexstarCommandType.getLongitude, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 2, 0, 0, 0, 3]));
-  static NexstarCommand buildGetGPSTime() => NexstarCommand(NexstarCommandType.getGPSTime, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 51, 0, 0, 0, 3]));
+  static NexstarCommand buildGetGPSLinkedCommand() => NexstarCommand(NexstarCommandType.isGPSLinked, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 55, 0, 0, 0, 1]));
+  static NexstarCommand buildGetLatitudeCommand() => NexstarCommand(NexstarCommandType.getLatitude, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 1, 0, 0, 0, 3]));
+  static NexstarCommand buildGetLongitudeCommand() => NexstarCommand(NexstarCommandType.getLongitude, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 2, 0, 0, 0, 3]));
+  static NexstarCommand buildGetGPSTimeCommand() => NexstarCommand(NexstarCommandType.getGPSTime, Uint8List.fromList([1, deviceId(NexstarDevices.gps), 51, 0, 0, 0, 3]));
 
-  static NexstarCommand buildGetVersion() => NexstarCommand(NexstarCommandType.getVersion, Uint8List(0));
+  static NexstarCommand buildGetVersionCommand() => NexstarCommand(NexstarCommandType.getVersion, Uint8List(0));
 
   static NexstarCommand buildGetDeviceVersion(NexstarDevices device) =>
       NexstarCommand(NexstarCommandType.getVersion, Uint8List.fromList([1, deviceId(device), 254, 0, 0, 0, 2]));
-  static NexstarCommand buildGetModel() => NexstarCommand(NexstarCommandType.getModel, Uint8List(0));
+  static NexstarCommand buildGetModelCommand() => NexstarCommand(NexstarCommandType.getModel, Uint8List(0));
+  
+  static NexstarCommand buildCancelGotoCommand() => NexstarCommand(NexstarCommandType.cancelGoto, Uint8List(0));
 
   static _stringToUint8List(String str){
     return Uint8List.fromList(str.codeUnits);
@@ -124,6 +126,7 @@ class NexstarCommandFactory {
 
   static int deviceId(NexstarDevices device) {
     return switch(device){
+      NexstarDevices.motorFocus => 12,
       NexstarDevices.motorAzmRa => 16,
       NexstarDevices.motorAltDec => 17,
       NexstarDevices.gps => 176,

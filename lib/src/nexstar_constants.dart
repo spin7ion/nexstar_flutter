@@ -68,6 +68,7 @@ enum NexstarAxis{
 }
 
 enum NexstarDevices{
+  motorFocus,
   motorAzmRa,
   motorAltDec,
   gps,
