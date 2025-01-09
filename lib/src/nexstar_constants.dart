@@ -55,8 +55,8 @@ enum NexstarTrackingMode{
 }
 
 enum NexstarRate{
-  variable(3),
-  fixed(2);
+  variable(0x3),
+  fixed(0x2);
 
   const NexstarRate(this.byte);
   final int byte;

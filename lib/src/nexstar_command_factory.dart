@@ -119,6 +119,11 @@ class NexstarCommandFactory {
 
   static NexstarCommand<NexstarResponse> buildDirectMotorCommand(NexstarDevices motId, NexstarMotorMsg msg, Uint8List data){
     var len=data.lengthInBytes+1;
+    if (data.lengthInBytes<3){
+      data = Uint8List.fromList([...data,...List<int>.filled(3-data.lengthInBytes, 0)]);
+    } else if (data.lengthInBytes>3) {
+      data=Uint8List.fromList(data.sublist(0,3));
+    }
 
     List<int> cmd=[len, motId.id, msg.id,...data, msg.respLenBytes];
 

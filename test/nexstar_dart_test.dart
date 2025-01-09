@@ -28,7 +28,13 @@ void main() {
     });
 
     test('First Test', () {
-      //expect(awesome.isAwesome, isTrue);
+      var slewCmd = NexstarCommandFactory.buildDirectMotorCommand(
+          NexstarDevices.motorAzmRa, NexstarMotorMsg.MC_SET_POS_GUIDERATE, Uint8List.fromList([2, 88])
+      );
+      print("Slew variable rate: ${slewCmd.commandData};");
+      expect(slewCmd.commandData, equals(
+          Uint8List.fromList(["P".codeUnits.first, 3, 16, 6, 2, 88, 0, 0]))
+      );
     });
   });
 }
