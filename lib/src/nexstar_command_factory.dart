@@ -115,9 +115,9 @@ class NexstarCommandFactory {
   
   static NexstarCommand<VoidResponse> buildCancelGotoCommand() => NexstarCommand(NexstarCommandType.cancelGoto, Uint8List(0));
 
-  static NexstarCommand<NexstarResponse> buildPassThroughCommand(Uint8List args)=>NexstarCommand(NexstarCommandType.passThrough, args);
+  static PassThroughCommand<NexstarResponse> buildPassThroughCommand(Uint8List args)=>PassThroughCommand(args);
 
-  static NexstarCommand<NexstarResponse> buildDirectMotorCommand(NexstarDevices motId, NexstarMotorMsg msg, Uint8List data){
+  static PassThroughCommand<NexstarResponse> buildDirectMotorCommand(NexstarDevices motId, NexstarMotorMsg msg, Uint8List data){
     var len=data.lengthInBytes+1;
     if (data.lengthInBytes<3){
       data = Uint8List.fromList([...data,...List<int>.filled(3-data.lengthInBytes, 0)]);

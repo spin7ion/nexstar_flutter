@@ -62,6 +62,15 @@ enum NexstarRate{
   final int byte;
 }
 
+enum NexstarFixedRate{
+  sidereal(0xff),
+  solar(0xfe),
+  lunar(0xfd);
+
+  const NexstarFixedRate(this.byte);
+  final int byte;
+}
+
 enum NexstarDirection{
   positive(6),
   negative(7);

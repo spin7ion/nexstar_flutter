@@ -35,3 +35,14 @@ class NexstarCommand<ResponseType> {
     return NexstarResponseParser.parseResponse(this, response) as ResponseType;
   }
 }
+
+class PassThroughCommand<ResponseType> extends NexstarCommand{
+  PassThroughCommand(Uint8List data) : super(NexstarCommandType.passThrough, data);
+
+  int get msgLen=>arguments[0];
+  int get destId=>arguments[1];
+  int get msgId=>arguments[2];
+  Uint8List get data=>arguments.sublist(3, 6);
+
+  int get responseBytesLen=>arguments.last;
+}
